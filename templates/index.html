@@ -4,15 +4,11 @@
 
 <body>
     <div class="App">
-        <header class="App-header">
-            <img src="{{ url_for('static', filename='Octocat.png') }}" class="App-logo" alt="logo" />
-            <p>
-                GitHub Codespaces <span class="heart">♥️</span> Flask
-            </p>
-            <p class="small">
-                Edit <code>templates/index.html</code> and refresh to see your changes!
-            </p>
-        </header>
+        <form action="/data" method="post">
+            <input type="text" value="10" name="R1"/>
+            <input type="text" value="20" name="R2"/>
+            <input type="submit" value="Do thing"/>
+        </form>
     </div>
 </body>
 
