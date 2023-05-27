@@ -12,8 +12,8 @@ const resistors = [];
 const resistor = {
   outerIndex: 0,
   innerIndex: 10,
-  valueOhms: 400
-}
+  valueOhms: 400,
+};
 
 const addSeriesResistorField = () => {
   const setResistorTypeSeries = (resistor) => {
@@ -67,7 +67,19 @@ const checkEmptyFields = () => {
   return true;
 };
 
+const submit = (e) => {
+  e.preventDefault();
+  if (!checkEmptyFields()) return false;
+  const formData = new FormData(form);
+  const data = {};
+  formData.forEach((k, v) => {
+    data[k] = v;
+  });
+  const json = JSON.stringify(data);
+  return true;
+};
+
 addSeriesResistorField();
 addSeriesResistorButton.onclick = addSeriesResistorField;
 addParallelResistorButton.onclick = addParallelResistorField;
-form.onsubmit = checkEmptyFields;
+form.onsubmit = submit;

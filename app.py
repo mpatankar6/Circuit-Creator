@@ -1,6 +1,6 @@
 from typing import Dict
 from flask import Flask, render_template, request
-
+import json as json
 from kirchoff_solver import calculate_circuit_properties, generate_drawing, parse_circuit_data
 
 app: Flask = Flask(__name__)
