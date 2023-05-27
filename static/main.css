@@ -7,11 +7,6 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-        monospace;
-}
-
 .App {
     background-color: #282c34;
     min-height: 100vh;
@@ -21,4 +16,20 @@ code {
     justify-content: center;
     font-size: calc(10px + 2vmin);
     color: white;
+}
+
+.add-button {
+    background-color: rgb(145, 104, 187);
+}
+
+.resistor {
+    margin: 10;
+}
+
+.resistor.series {
+    background-color: lightblue;
+}
+
+.resistor.parallel {
+    background-color: lightgreen;
 }

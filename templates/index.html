@@ -1,15 +1,28 @@
-<head>
+<html>
+  <head>
     <title>{{ title }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
-
-<body>
-    <div class="App">
-        <form action="/data" method="post">
-            <input type="text" value="10" name="R1"/>
-            <input type="text" value="20" name="R2"/>
-            <input type="submit" value="Do thing"/>
-        </form>
-    </div>
-</body>
-
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='main.css') }}"
+    />
+    <script defer src="{{ url_for('static', filename='script.js') }}"></script>
+  </head>
+  <body class="App">
+    <form action="/data" method="post">
+      <input type="text" value="12" name="B" />
+      <input
+        type="button"
+        value="Add Series Resistor"
+        class="add-button"
+        id="add-series-resistor-button"
+      />
+      <input
+        type="button"
+        value="Add Parallel Resistor"
+        class="add-button"
+        id="add-parallel-resistor-button"
+      />
+      <input type="submit" value="Submit" id="submit-button" />
+    </form>
+  </body>
 </html>

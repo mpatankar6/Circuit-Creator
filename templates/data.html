@@ -1,6 +1,15 @@
-{% for key,value in form_data.items() %}
-<h2> {{key}}</h2>
-<p> {{value}}</p>
-{% endfor %}
-
-{{ circuit_image | safe}}
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='main.css') }}"
+    />
+  </head>
+  <body class="App">
+    <div class="circuit-image">{{ circuit_image | safe }}</div>
+    {% for key, value in circuit_props.items() %}
+    <h2>{{ key }}</h2>
+    <p>{{ value }}</p>
+    {% endfor %}
+  </body>
+</html>
