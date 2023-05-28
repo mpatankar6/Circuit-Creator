@@ -44,7 +44,7 @@ def calculate_circuit_properties(data: Iterator[tuple[str, str]]) -> Dict[str, s
     return {
         "V_t": f"{total_voltage} V",
         "R_t": f"{total_resistance} Ω",
-        "I_t": f"{total_current} A"
+        "I_t": f"{total_current} A",
     }
 
 
@@ -69,8 +69,3 @@ def parse_circuit_data(data: Iterator[tuple[str, str]]) -> dict:
             element_type: str = "parallel" if is_parallel else "series"
             info[f"resistor_element {index} {element_type}"] = resistor_list
     return info
-
-
-class Component:
-    def __init__(self) -> None:
-        pass

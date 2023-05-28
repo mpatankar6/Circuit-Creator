@@ -9,19 +9,12 @@ const addParallelResistorButton = document.getElementById(
 let seriesIndex = 0;
 const resistors = [];
 
-const resistor = {
-  outerIndex: 0,
-  innerIndex: 10,
-  valueOhms: 400,
-};
-
 const addSeriesResistorField = () => {
   const setResistorTypeSeries = (resistor) => {
     resistor.className = "resistor series";
-    resistor.name = `R${resistors.length} ${seriesIndex} Series`;
+    resistor.name = `R${resistors.length} Series`;
     resistor.value = 10;
   };
-  if (checkChangeInResistorType("Series")) seriesIndex++;
   const newField = createResistorField();
   setResistorTypeSeries(newField);
   resistors.push(newField);
@@ -31,10 +24,9 @@ const addSeriesResistorField = () => {
 const addParallelResistorField = () => {
   const setResistorTypeParallel = (resistor) => {
     resistor.className = "resistor parallel";
-    resistor.name = `R${resistors.length} ${seriesIndex} Parallel`;
+    resistor.name = `R${resistors.length} Parallel`;
     resistor.value = 10;
   };
-  if (checkChangeInResistorType("Parallel")) seriesIndex++;
   const newField = createResistorField();
   setResistorTypeParallel(newField);
   // Overwrite previous field to become Parallel as well
@@ -67,15 +59,30 @@ const checkEmptyFields = () => {
   return true;
 };
 
-const submit = (e) => {
-  e.preventDefault();
+const submit = (event) => {
+  event.preventDefault();
   if (!checkEmptyFields()) return false;
   const formData = new FormData(form);
-  const data = {};
-  formData.forEach((k, v) => {
-    data[k] = v;
+  const data = { name: "circuit", children: [] };
+  let id = 0;
+  formData.forEach((v, k) => {
+    const type = k.split(" ").pop();
+    const name = k.split(" ")[0];
+    if (name === "B") return;
+    data.children.push;
+    const resistor = {
+      type: type,
+      name: name,
+      resistance: Number(v),
+    };
+    console.log(type, name);
+    console.log(resistor);
+    data[id] = resistor;
+    id++;
   });
+  console.log(data);
   const json = JSON.stringify(data);
+  console.log(json);
   return true;
 };
 
