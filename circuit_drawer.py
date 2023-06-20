@@ -178,4 +178,6 @@ def assign_resistor_properties(
                 resistor_data[branch.get("name")] = create_resistor(
                     resistance, branch_current, branch_voltage, power
                 )
+            equiv_r = calc_parallel_resistance(branches)
+            remaining_voltage -= equiv_r * current
     return resistor_data
