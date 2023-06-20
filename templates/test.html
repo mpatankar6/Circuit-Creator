@@ -1,1 +1,44 @@
-<div class="circuit-image">{{ circuit_image | safe }}</div>
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='main.css') }}"
+    />
+  </head>
+  <body class="App">
+    <h1>Circuit</h1>
+    <div class="circuit-image">{{ circuit_image | safe }}</div>
+    <table>
+      <tr>
+        {% for key in circuit_stats.keys() %}
+        <th>{{ key }}</th>
+        {% endfor %}
+      </tr>
+      <tr>
+        {% for value in circuit_stats.values() %}
+        <td>{{ value }}</td>
+        {% endfor %}
+      </tr>
+      <h2>{{ key }}</h2>
+      <p>{{ value }}</p>
+    </table>
+
+    <table>
+      <tr>
+        <th></th>
+        <th>Resistance</th>
+        <th>Current</th>
+        <th>Voltage</th>
+        <th>Power Dissipated</th>
+      </tr>
+      {% for key, value in resistor_data.items() %}
+      <tr>
+        <th>{{ key }}</th>
+        {% for v in value.values() %}
+        <td>{{ v }}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>

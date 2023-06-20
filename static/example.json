@@ -1,4 +1,5 @@
 {
+  "voltage": 12,
   "components": [
     {
       "type": "Series",
@@ -46,12 +47,7 @@
               }
             ]
           }
-        ],
-        {
-          "type": "Parallel",
-          "name": "R7",
-          "resistance": 5000
-        }
+        ]
       ]
     },
     {

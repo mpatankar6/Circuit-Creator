@@ -7,6 +7,21 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+table, th, td {
+    border: 1px solid;
+
+}
+
+table {
+    width: 80%;
+    margin: 10px 0px 20px 0px;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 7px;
+}
+
 .App {
     background-color: #282c34;
     min-height: 100vh;
