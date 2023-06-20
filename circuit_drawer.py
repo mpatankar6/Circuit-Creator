@@ -4,7 +4,7 @@ from schemdraw import Drawing, elements
 from schemdraw.types import Point
 
 LINE_LENGTH = 3  # In accordance with schemdraw
-PRECISION = 4
+PRECISION = 4  # Decimal places to round to
 
 
 def generate_drawing(json_data: dict) -> str:
@@ -12,8 +12,6 @@ def generate_drawing(json_data: dict) -> str:
         drawing.config(color="white")
         drawing.add(elements.Battery())
         draw_element_list(json_data["components"], drawing)
-
-    print(calculate_circuit(json_data))
     raw_image_data: bytes = drawing.get_imagedata("svg")
     return str(raw_image_data).replace(r"\n", "\n")[2:-1]
 
@@ -147,7 +145,9 @@ def create_resistor(
     return new_resistor
 
 
-def assign_resistor_properties(components: list, current, voltage) -> dict:
+def assign_resistor_properties(
+    components: list, current: float, voltage: float
+) -> dict:
     resistor_data: dict = {}
     remaining_voltage = voltage
     for component in components:
