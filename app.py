@@ -15,7 +15,7 @@ def start() -> str:
 @app.route("/data/", methods=["GET", "POST"])
 def data() -> str:
     if request.method == "GET":
-        return "Invalid"
+        return "Invalid Request"
 
     if request.method == "POST":
         print(request.form.to_dict().items())
@@ -29,7 +29,7 @@ def data() -> str:
 
 @app.route("/test/")
 def test() -> str:
-    example_data = json.load(open(r"static\example.json", encoding="UTF-8"))
+    example_data = json.load(open(r"static/example.json", encoding="UTF-8"))
     my_circuit_image = generate_drawing(example_data)
     circuit_stats, resistor_data = calculate_circuit(example_data)
     return render_template(

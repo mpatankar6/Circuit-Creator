@@ -38,14 +38,14 @@ def draw_parallel_element(branches: list, drawing: Drawing) -> dict:
     circuit_width: int = get_circuit_width(branches)
     start_point: Point = drawing.here
     # This is 3 units above the top resistor
-    top_bound: int = math.floor(circuit_height / 2) * LINE_LENGTH
+    top_bound: int = math.floor((circuit_height * LINE_LENGTH) / 2)
     print(f"Height: {circuit_height}, Width {circuit_width}")
     drawing.move_from(drawing.here, 0, top_bound)
     for resistor in branches:
         drawing.move(0, -3)
         if isinstance(resistor, list):
             element_list = element_list | draw_element_list(resistor, drawing)
-            break
+            continue
         start_pos: Point = drawing.here
         drawing.add(_r := elements.Resistor().label(get_resistor_label(resistor)))
         element_list[resistor.get("name")] = _r
@@ -54,12 +54,13 @@ def draw_parallel_element(branches: list, drawing: Drawing) -> dict:
         _dx, _dy = calc_delta(start_pos, drawing.here)
         drawing.move(-_dx, 0)
     drawing.theta = 270
+    # Left Side
     drawing.move_from(start_point, 0, top_bound - 3)
     for _ in range(len(branches) - 1):
         drawing.add(elements.Line())
-    # Overlapping lines but who cares
+    # Right Side
     drawing.move_from(start_point, circuit_width * LINE_LENGTH, top_bound - 3)
-    for _ in range(circuit_height - 1):
+    for _ in range(len(branches) - 1):
         drawing.add(elements.Line())
     drawing.move_from(start_point, circuit_width * LINE_LENGTH, 0, 0)
     return element_list
@@ -169,7 +170,7 @@ def assign_resistor_properties(
                     resistor_data = resistor_data | assign_resistor_properties(
                         branch, remaining_voltage / equiv_r, remaining_voltage
                     )
-                    break
+                    continue
                 resistance: float = branch.get("resistance")
                 resistor_data.setdefault(branch.get("name"), {})
                 branch_current = remaining_voltage / resistance

@@ -1,33 +1,37 @@
 <html>
   <head>
     <title>{{ title }}</title>
-    <link
+    <!-- <link
       rel="stylesheet"
       href="{{ url_for('static', filename='main.css') }}"
-    />
+    /> -->
     <script defer src="{{ url_for('static', filename='script.js') }}"></script>
   </head>
   <body class="App">
+    <div id="controls">
+      <input type="radio" name="mode-selector" id="series" checked />
+      <label for="series">Series</label>
+      <input type="radio" name="mode-selector" id="parallel" />
+      <label for="parallel">Parallel</label>
+      <input type="button" value="Step Back" id="step-back-btn" />
+      <input type="checkbox" name="Pierce" id="pierce" />
+    </div>
+
     <form>
-      <input
-        type="text"
-        value="12"
-        placeholder="Enter Battery Voltage"
-        name="B"
-      />
-      <input
-        type="button"
-        value="Add Series Resistor"
-        class="add-button"
-        id="add-series-resistor-button"
-      />
-      <input
-        type="button"
-        value="Add Parallel Resistor"
-        class="add-button"
-        id="add-parallel-resistor-button"
-      />
-      <input type="submit" value="Submit" id="submit-button" />
+      <ul>
+        <li>
+          <input
+            type="number"
+            step="any"
+            value="12"
+            id="voltage-field"
+            required
+          />
+        </li>
+      </ul>
+      <input type="button" value="Add Resistor" id="add-resistor-btn" />
+      <input type="reset" value="Reset" />
+      <input type="submit" value="Submit" />
     </form>
   </body>
 </html>

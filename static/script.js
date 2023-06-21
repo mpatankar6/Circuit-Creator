@@ -1,92 +1,91 @@
-const form = document.getElementsByTagName("form")[0];
-const addSeriesResistorButton = document.getElementById(
-  "add-series-resistor-button"
-);
-const addParallelResistorButton = document.getElementById(
-  "add-parallel-resistor-button"
-);
+const form = document.querySelector("form");
+const voltageField = document.getElementById("voltage-field");
+const outerList = document.querySelector("ul");
+const addResistorBtn = document.getElementById("add-resistor-btn");
+const pierceChbx = document.getElementById("pierce");
+const stepBackBtn = document.getElementById("step-back-btn");
 
-let seriesIndex = 0;
-const resistors = [];
+let project = { components: [] };
+let head = outerList;
+let count = 0;
 
-const addSeriesResistorField = () => {
-  const setResistorTypeSeries = (resistor) => {
-    resistor.className = "resistor series";
-    resistor.name = `R${resistors.length} Series`;
-    resistor.value = 10;
-  };
-  const newField = createResistorField();
-  setResistorTypeSeries(newField);
-  resistors.push(newField);
-  addSeriesResistorButton.before(newField);
+const createResistor = (type) => {
+  const resistor = document.createElement("li");
+  const inputField = document.createElement("input");
+  inputField.type = "number";
+  resistor.appendChild(inputField);
+  resistor.dataset.type = type;
+  resistor.dataset.name = "R" + count++;
+  return resistor;
 };
 
-const addParallelResistorField = () => {
-  const setResistorTypeParallel = (resistor) => {
-    resistor.className = "resistor parallel";
-    resistor.name = `R${resistors.length} Parallel`;
-    resistor.value = 10;
-  };
-  const newField = createResistorField();
-  setResistorTypeParallel(newField);
-  // Overwrite previous field to become Parallel as well
-  const lastField = resistors.pop();
-  if (lastField.name.includes("Series")) setResistorTypeParallel(lastField);
-  resistors.push(lastField);
-  resistors.push(newField);
-  addSeriesResistorButton.before(newField);
+const addResistor = () => {
+  const inputs = [
+    ...document.getElementById("controls").getElementsByTagName("input"),
+  ];
+  mode = inputs.filter((input) => input.type === "radio" && input.checked)[0]
+    .id;
+  const resistor = createResistor(mode);
+  if (mode === "parallel") {
+    if (pierceChbx.value === "on") {
+      const wrapper = document.createElement("li");
+    }
+
+    const newList = document.createElement("ul");
+    head.appendChild(wrapper.appendChild(newList));
+    head = newList;
+    console.log(head);
+  }
+  head.appendChild(resistor);
 };
 
-const createResistorField = () => {
-  const input = document.createElement("input");
-  input.type = "text";
-  return input;
+const stepBack = () => {
+  if (head.parentElement.tagName !== "FORM") head = head.parentElement;
+  console.log("HEAD ", head);
 };
 
-const checkChangeInResistorType = (newFieldType) => {
-  const lastField = resistors[resistors.length - 1];
-  if (
-    lastField != undefined &&
-    lastField.name.split(" ").pop() !== newFieldType
-  )
-    return true;
-  else return false;
+const submit = (e) => {
+  e.preventDefault();
+  children = [...outerList.children];
+  project.voltage = children.shift().firstElementChild.value;
+  console.log(project);
+
+  // const addSeriesData = (list) => {};
+
+  // const addParallelData = (list) => {
+  //   branches = [];
+  //   for (const item of [...list.children]) {
+  //     branches.push({
+  //       name: item.dataset.name,
+  //       resistance: item.firstElementChild.value,
+  //     });
+  //   }
+  //   project.components.push({
+  //     type: "Parallel",
+  //     branches: branches,
+  //   });
+  // };
+
+  // for (const child of [...outerList.children]) {
+  //   input = child.firstElementChild;
+  //   if (child.tagName === "LI") {
+  //     project.components.push({
+  //       type: "Series",
+  //       resistor: {
+  //         name: child.dataset.name,
+  //         resistance: input.value,
+  //       },
+  //     });
+  //   } else if (child.tagName === "UL") {
+  //     addParallelData(child);
+  //   }
+  // }
+  // console.log(project);
 };
 
-const checkEmptyFields = () => {
-  const inputElements = document.getElementsByTagName("input");
-  for (const element of inputElements) if (element.value === "") return false;
-  return true;
-};
+const save = () => {};
+const load = () => {};
 
-const submit = (event) => {
-  event.preventDefault();
-  if (!checkEmptyFields()) return false;
-  const formData = new FormData(form);
-  const data = { name: "circuit", children: [] };
-  let id = 0;
-  formData.forEach((v, k) => {
-    const type = k.split(" ").pop();
-    const name = k.split(" ")[0];
-    if (name === "B") return;
-    data.children.push;
-    const resistor = {
-      type: type,
-      name: name,
-      resistance: Number(v),
-    };
-    console.log(type, name);
-    console.log(resistor);
-    data[id] = resistor;
-    id++;
-  });
-  console.log(data);
-  const json = JSON.stringify(data);
-  console.log(json);
-  return true;
-};
-
-addSeriesResistorField();
-addSeriesResistorButton.onclick = addSeriesResistorField;
-addParallelResistorButton.onclick = addParallelResistorField;
 form.onsubmit = submit;
+addResistorBtn.onclick = addResistor;
+stepBackBtn.onclick = stepBack;
