@@ -11,7 +11,7 @@ def generate_drawing(json_data: dict) -> str:
     with Drawing(show=False) as drawing:
         drawing.config(color="white")
         drawing.add(elements.Battery())
-        draw_element_list(json_data["components"], drawing)
+        print(f"Elements: {draw_element_list(json_data['components'], drawing)}")
     raw_image_data: bytes = drawing.get_imagedata("svg")
     return str(raw_image_data).replace(r"\n", "\n")[2:-1]
 
@@ -101,7 +101,7 @@ def get_components_of_type(r_type: str, component_list: list) -> iter:
 def calculate_circuit(json_data: dict) -> tuple:
     component_data: list = json_data.get("components")
     r_t: float = calc_series_resistance(component_data)
-    v_t: float = json_data.get("voltage")
+    v_t: float = float(json_data.get("voltage"))
     i_t: float = v_t / r_t
     circuit_stats = {
         "Total Resistance": str(round(r_t, PRECISION)) + " Ohms",
@@ -114,7 +114,7 @@ def calculate_circuit(json_data: dict) -> tuple:
 def calc_series_resistance(components: list) -> float:
     resistance: float = 0
     resistance += sum(
-        component.get("resistor").get("resistance")
+        float(component.get("resistor").get("resistance"))
         for component in get_components_of_type("Series", components)
     )
     for component in get_components_of_type("Parallel", components):
@@ -127,7 +127,7 @@ def calc_parallel_resistance(branches: list) -> float:
     individual_resistances: list = []
     for resistor in branches:
         individual_resistances.append(
-            resistor.get("resistance")
+            float(resistor.get("resistance"))
             if not isinstance(resistor, list)
             else calc_series_resistance(resistor)
         )
@@ -154,7 +154,7 @@ def assign_resistor_properties(
     for component in components:
         if "branches" not in component:
             resistor = component.get("resistor")
-            resistance: float = resistor.get("resistance")
+            resistance: float = float(resistor.get("resistance"))
             resistor_data.setdefault(resistor.get("name"), {})
             voltage = current * resistance
             power = current * voltage
@@ -171,7 +171,7 @@ def assign_resistor_properties(
                         branch, remaining_voltage / equiv_r, remaining_voltage
                     )
                     continue
-                resistance: float = branch.get("resistance")
+                resistance: float = float(branch.get("resistance"))
                 resistor_data.setdefault(branch.get("name"), {})
                 branch_current = remaining_voltage / resistance
                 branch_voltage = remaining_voltage

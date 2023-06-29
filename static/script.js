@@ -1,90 +1,137 @@
 const form = document.querySelector("form");
-const voltageField = document.getElementById("voltage-field");
 const outerList = document.querySelector("ul");
 const addResistorBtn = document.getElementById("add-resistor-btn");
-const pierceChbx = document.getElementById("pierce");
+const stepFwdChbx = document.getElementById("step-fwd-chbx");
 const stepBackBtn = document.getElementById("step-back-btn");
 
-let project = { components: [] };
-let head = outerList;
+let project = {};
+let head = undefined;
 let count = 0;
 
-const createResistor = (type) => {
-  const resistor = document.createElement("li");
+const moveHead = (newHead) => {
+  if (head != undefined) head.dataset.isHead = false;
+  newHead.dataset.isHead = true;
+  head = newHead;
+};
+moveHead(outerList);
+
+const createResistor = () => {
   const inputField = document.createElement("input");
   inputField.type = "number";
-  resistor.appendChild(inputField);
-  resistor.dataset.type = type;
-  resistor.dataset.name = "R" + count++;
-  return resistor;
+  inputField.placeholder = `R${count}`;
+  inputField.dataset.name = `R${count++}`;
+  return inputField;
 };
 
 const addResistor = () => {
-  const inputs = [
+  const type = [
     ...document.getElementById("controls").getElementsByTagName("input"),
-  ];
-  mode = inputs.filter((input) => input.type === "radio" && input.checked)[0]
-    .id;
-  const resistor = createResistor(mode);
-  if (mode === "parallel") {
-    if (pierceChbx.value === "on") {
-      const wrapper = document.createElement("li");
-    }
+  ].filter((input) => input.type === "radio" && input.checked)[0].id;
 
-    const newList = document.createElement("ul");
-    head.appendChild(wrapper.appendChild(newList));
-    head = newList;
-    console.log(head);
+  const component = document.createElement("li");
+  if (type === "series") {
+    if (head.tagName === "LI") {
+      const newList = document.createElement("ul");
+      head.appendChild(newList);
+      moveHead(newList);
+      console.log(head);
+    }
+    component.dataset.type = type;
+    component.appendChild(createResistor());
+    head.appendChild(component);
+  } else if (type === "parallel") {
+    if (stepFwdChbx.checked) {
+      if (head.tagName !== "UL") {
+        alert("dawg what are u tryna do");
+        return;
+      }
+      const wrapper = document.createElement("li");
+      wrapper.dataset.type = type;
+      head.appendChild(wrapper);
+      moveHead(wrapper);
+      console.log(head);
+    } else {
+      if (head.tagName !== "LI") {
+        alert("Step Forward");
+        return;
+      }
+    }
+    head.appendChild(createResistor());
+    stepFwdChbx.checked = false;
   }
-  head.appendChild(resistor);
 };
 
 const stepBack = () => {
-  if (head.parentElement.tagName !== "FORM") head = head.parentElement;
+  if (head.parentElement.tagName !== "FORM") moveHead(head.parentElement);
   console.log("HEAD ", head);
 };
 
 const submit = (e) => {
   e.preventDefault();
-  children = [...outerList.children];
+  const children = [...outerList.children];
   project.voltage = children.shift().firstElementChild.value;
-  console.log(project);
-
-  // const addSeriesData = (list) => {};
-
-  // const addParallelData = (list) => {
-  //   branches = [];
-  //   for (const item of [...list.children]) {
-  //     branches.push({
-  //       name: item.dataset.name,
-  //       resistance: item.firstElementChild.value,
-  //     });
-  //   }
-  //   project.components.push({
-  //     type: "Parallel",
-  //     branches: branches,
-  //   });
-  // };
-
-  // for (const child of [...outerList.children]) {
-  //   input = child.firstElementChild;
-  //   if (child.tagName === "LI") {
-  //     project.components.push({
-  //       type: "Series",
-  //       resistor: {
-  //         name: child.dataset.name,
-  //         resistance: input.value,
-  //       },
-  //     });
-  //   } else if (child.tagName === "UL") {
-  //     addParallelData(child);
-  //   }
-  // }
-  // console.log(project);
+  project.components = encode(children);
+  console.log("Post Body: ", project);
+  fetch("/data", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(project),
+  })
+    .then((response) => response.text())
+    .then((html) => (document.querySelector("html").innerHTML = html))
+    .catch((e) => console.error("HTTP ERROR: " + e));
 };
 
-const save = () => {};
-const load = () => {};
+const encode = (componentList) => {
+  const components = [];
+  for (const component of componentList) {
+    const type = component.dataset.type;
+    if (type === "series") newData = addSeriesData(component);
+    else if (type === "parallel") newData = addParallelData(component);
+    else throw new Error("Invalid Component Type");
+    components.push(newData);
+  }
+  console.log("Componenets:", components);
+  return components;
+};
+
+const addSeriesData = (component) => {
+  const inputField = component.firstElementChild;
+  return {
+    type: "Series",
+    resistor: {
+      name: inputField.dataset.name,
+      resistance: inputField.value,
+    },
+  };
+};
+
+const addParallelData = (component) => {
+  const branches = [...component.children];
+  const branchList = [];
+  for (const branch of branches) {
+    // Component List
+    if (branch.tagName === "UL") {
+      aaa = encode([...branch.children]);
+      console.log("Branch Children: ", [...branch.children], aaa);
+      branchList.push(aaa);
+      continue;
+    }
+    console.log(branches);
+    console.log(branch);
+    inputField = branch;
+    branchList.push({
+      name: inputField.dataset.name,
+      resistance: inputField.value,
+    });
+  }
+  return {
+    type: "Parallel",
+    branches: branchList,
+  };
+};
 
 form.onsubmit = submit;
 addResistorBtn.onclick = addResistor;

@@ -1,0 +1,47 @@
+<html>
+  <head>
+    <title>{{ title }}</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='main.css') }}"
+    />
+    <script defer src="{{ url_for('static', filename='script.js') }}"></script>
+  </head>
+  <body class="App">
+    <h1>Enter Circuit</h1>
+    <div id="controls">
+      <div class="control">
+        <input type="radio" name="mode-selector" id="series" checked />
+        <label for="series">Series</label>
+      </div>
+      <div class="control">
+        <input type="radio" name="mode-selector" id="parallel" />
+        <label for="parallel">Parallel</label>
+      </div>
+      <input type="button" value="Step Back" id="step-back-btn" />
+      <div class="control">
+        <input type="checkbox" id="step-fwd-chbx" />
+        <label for="step-fwd-chbx">Step Forward</label>
+      </div>
+    </div>
+
+    <form>
+      <div id="resistors">
+        <ul>
+          <li>
+            <input
+              type="number"
+              step="any"
+              value="12"
+              id="voltage-field"
+              required
+            />
+          </li>
+        </ul>
+      </div>
+      <input type="button" value="Add Resistor" id="add-resistor-btn" />
+      <input type="reset" value="Reset" />
+      <input type="submit" value="Submit" />
+    </form>
+  </body>
+</html>

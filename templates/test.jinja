@@ -4,6 +4,7 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='main.css') }}"
     />
+    <script></script>
   </head>
   <body class="App">
     <h1>Circuit</h1>
@@ -40,5 +41,7 @@
       </tr>
       {% endfor %}
     </table>
+    <input type="button" value="Export to JSON" />
+    <div class="json-container"></div>
   </body>
 </html>

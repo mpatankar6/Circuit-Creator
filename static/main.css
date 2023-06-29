@@ -1,57 +1,83 @@
 body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-        "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-        sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-table, th, td {
-    border: 1px solid;
-    border-color: rgb(136, 136, 136);
+table,
+th,
+td {
+  border: 1px solid;
+  border-color: rgb(136, 136, 136);
 }
 
 table {
-    width: 80%;
-    margin: 10px 0px 20px 0px;
-    border-collapse: collapse;
+  width: 80%;
+  margin: 10px 0px 20px 0px;
+  border-collapse: collapse;
 }
 
-th, td {
-    padding: 7px;
-    text-align: center;
+th,
+td {
+  padding: 7px;
+  text-align: center;
+}
+
+ul[data-is-head="true"],
+li[data-is-head="true"] {
+  background-color: aqua;
+  border-width: 10px;
 }
 
 ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
 .App {
-    background-color: #282c34;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
 }
 
-.add-button {
-    background-color: rgb(145, 104, 187);
+#controls {
+  width: 100vw;
+  /* background-color: aquamarine; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 20px;
 }
 
-.resistor {
-    margin: 10;
+.control {
+  display: flex;
+  align-items: center;
+  /* background-color: aqua; */
 }
 
-.resistor.series {
-    background-color: lightblue;
+#resistors {
+  background-color: yellow;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.resistor.parallel {
-    background-color: lightgreen;
+input[type="radio"],
+input[type="checkbox"] {
+  height: 20px;
+  width: 20px;
+}
+
+label {
+  font-size: x-large;
+  font-weight: 400;
+  /* line-height: 30px; */
 }
