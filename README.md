@@ -16,4 +16,4 @@ Navigate to `127.0.0.1:5000` or `localhost:5000` in your browser.
 - Saving/Loading
 - Better drawing algorithim that passes every edge case
 
-Please Don't put more branches after a series branch, or have only one branch, it breaks the drawing, not the calculations though.
+Please don't put more branches after a series branch, or have only one branch, it breaks the drawing, not the calculations though.
