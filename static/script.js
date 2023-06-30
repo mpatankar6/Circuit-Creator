@@ -1,8 +1,5 @@
-const form = document.querySelector("form");
 const outerList = document.querySelector("ul");
-const addResistorBtn = document.getElementById("add-resistor-btn");
 const stepFwdChbx = document.getElementById("step-fwd-chbx");
-const stepBackBtn = document.getElementById("step-back-btn");
 
 let project = {};
 let head = undefined;
@@ -18,6 +15,7 @@ moveHead(outerList);
 const createResistor = () => {
   const inputField = document.createElement("input");
   inputField.type = "number";
+  inputField.required = true;
   inputField.placeholder = `R${count}`;
   inputField.dataset.name = `R${count++}`;
   return inputField;
@@ -42,10 +40,12 @@ const addResistor = () => {
   } else if (type === "parallel") {
     if (stepFwdChbx.checked) {
       if (head.tagName !== "UL") {
-        alert("dawg what are u tryna do");
+        alert("Can't Step Further");
+        stepFwdChbx.checked = false;
         return;
       }
       const wrapper = document.createElement("li");
+      wrapper.className = "parallel-wrapper";
       wrapper.dataset.type = type;
       head.appendChild(wrapper);
       moveHead(wrapper);
@@ -62,7 +62,8 @@ const addResistor = () => {
 };
 
 const stepBack = () => {
-  if (head.parentElement.tagName !== "FORM") moveHead(head.parentElement);
+  const headTag = head.parentElement.tagName;
+  if (headTag !== "FORM" && headTag !== "DIV") moveHead(head.parentElement);
   console.log("HEAD ", head);
 };
 
@@ -80,8 +81,7 @@ const submit = (e) => {
     body: JSON.stringify(project),
   })
     .then((response) => response.text())
-    .then((html) => (document.querySelector("html").innerHTML = html))
-    .catch((e) => console.error("HTTP ERROR: " + e));
+    .then((html) => (document.querySelector("html").innerHTML = html));
 };
 
 const encode = (componentList) => {
@@ -133,6 +133,6 @@ const addParallelData = (component) => {
   };
 };
 
-form.onsubmit = submit;
-addResistorBtn.onclick = addResistor;
-stepBackBtn.onclick = stepBack;
+document.querySelector("form").onsubmit = submit;
+document.getElementById("add-resistor-btn").onclick = addResistor;
+document.getElementById("step-back-btn").onclick = stepBack;

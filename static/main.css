@@ -1,3 +1,10 @@
+:root {
+  --dark-gray: rgb(40, 44, 52);
+  --medium-gray: rgb(65, 69, 77);
+  --light-gray: rgb(104, 110, 122);
+  --border-gray: rgba(156, 156, 156, 0.65);
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -5,13 +12,20 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--dark-gray);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
 }
 
 table,
 th,
 td {
   border: 1px solid;
-  border-color: rgb(136, 136, 136);
+  border-color: var(--border-gray);
 }
 
 table {
@@ -28,56 +42,107 @@ td {
 
 ul[data-is-head="true"],
 li[data-is-head="true"] {
-  background-color: aqua;
-  border-width: 10px;
+  border: 2px dashed white;
+  border-radius: 15px;
 }
 
 ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
-}
-
-.App {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-#controls {
-  width: 100vw;
-  /* background-color: aquamarine; */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  column-gap: 20px;
-}
-
-.control {
-  display: flex;
-  align-items: center;
-  /* background-color: aqua; */
-}
-
-#resistors {
-  background-color: yellow;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+label {
+  margin: 5px;
+  font-size: x-large;
+  font-weight: 400;
 }
 
 input[type="radio"],
 input[type="checkbox"] {
   height: 20px;
   width: 20px;
+  cursor: pointer;
 }
 
-label {
-  font-size: x-large;
+input[type="number"] {
+  margin: 10px;
+  padding: 5px;
+  width: 80px;
+  height: 50px;
+  background-color: var(--light-gray);
+  color: white;
+  font-size: large;
+  text-align: center;
+  border: 1px solid var(--border-gray);
+  border-radius: 15px;
+}
+
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+  padding: 10px;
+  align-items: center;
+  background-color: var(--medium-gray);
+  color: white;
+  font-size: large;
   font-weight: 400;
-  /* line-height: 30px; */
+  border: 1px solid var(--border-gray);
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.control {
+  display: flex;
+  align-items: center;
+}
+
+.parallel-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.parallel-wrapper > input {
+  border: 3px solid green;
+}
+
+::placeholder {
+  color: white;
+  opacity: 0.3;
+}
+
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+#controls {
+  width: 100vw;
+  margin: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 20px;
+}
+
+#resistors {
+  background-color: var(--medium-gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  margin: 5px;
+}
+
+#form-controls {
+  margin: 5px;
+  padding: 10px;
+  display: flex;
+  column-gap: 10px;
+}
+
+#export-json-btn {
+  margin-bottom: 25px;
 }

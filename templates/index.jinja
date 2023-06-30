@@ -7,8 +7,8 @@
     />
     <script defer src="{{ url_for('static', filename='script.js') }}"></script>
   </head>
-  <body class="App">
-    <h1>Enter Circuit</h1>
+  <body>
+    <h1>Create Circuit</h1>
     <div id="controls">
       <div class="control">
         <input type="radio" name="mode-selector" id="series" checked />
@@ -39,9 +39,11 @@
           </li>
         </ul>
       </div>
-      <input type="button" value="Add Resistor" id="add-resistor-btn" />
-      <input type="reset" value="Reset" />
-      <input type="submit" value="Submit" />
+      <div id="form-controls">
+        <input type="button" value="Add Resistor" id="add-resistor-btn" />
+        <input type="reset" value="Clear" />
+        <input type="submit" value="Submit" />
+      </div>
     </form>
   </body>
 </html>
