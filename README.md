@@ -1,5 +1,5 @@
 # Circuit Creator
-Webapp in which you can create a complex circuit of resistors and recieve a rendered schematic and a detailed number sheet. 
+Web app in which you can create a complex circuit of resistors and recieve a rendered schematic and a detailed number sheet. 
 
 # Running
 ```
