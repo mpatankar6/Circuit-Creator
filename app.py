@@ -9,34 +9,33 @@ app: Flask = Flask(__name__)
 
 @app.route("/")
 def start() -> str:
-    return render_template("index.jinja", title="Circuit Simulator")
+    return render_template("index.jinja", title="Circuit Maker")
 
 
 @app.route("/data/", methods=["GET", "POST"])
 def data() -> str:
-    if request.method == "GET":
-        return "Invalid Request"
-
     if request.method == "POST":
-        example_data = request.get_json()
-        my_circuit_image = generate_drawing(example_data)
-        circuit_stats, resistor_data = calculate_circuit(example_data)
-        return render_template(
-            "test.jinja",
-            circuit_image=my_circuit_image,
-            circuit_stats=circuit_stats,
-            resistor_data=resistor_data,
-        )
+        form_data = request.get_json()
+        return load_data_page(form_data)
+    return "Invalid HTTP Request"
 
 
-@app.route("/test/")
-def test() -> str:
-    example_data = json.load(open(r"static/example.json", encoding="UTF-8"))
-    my_circuit_image = generate_drawing(example_data)
-    circuit_stats, resistor_data = calculate_circuit(example_data)
+@app.route("/example/", methods=["GET", "POST"])
+def example() -> str:
+    if request.method == "GET":
+        with open(r"static/example.json", encoding="UTF-8") as json_file:
+            example_data = json.load(json_file)
+            return load_data_page(example_data)
+    return "Invalid HTTP Request"
+
+
+def load_data_page(json_data: str) -> str:
+    circuit_image = generate_drawing(json_data)
+    circuit_stats, resistor_data = calculate_circuit(json_data)
     return render_template(
-        "test.jinja",
-        circuit_image=my_circuit_image,
+        "data.jinja",
+        title="Circuit Data",
+        circuit_image=circuit_image,
         circuit_stats=circuit_stats,
         resistor_data=resistor_data,
     )

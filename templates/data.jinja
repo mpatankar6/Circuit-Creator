@@ -1,5 +1,6 @@
 <html>
   <head>
+    <title>{{ title }}</title>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='main.css') }}"
@@ -41,7 +42,5 @@
       </tr>
       {% endfor %}
     </table>
-    <input id="export-json-btn" type="button" value="Export to JSON" />
-    <div class="json-container"></div>
   </body>
 </html>

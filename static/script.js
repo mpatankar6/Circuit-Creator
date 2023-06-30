@@ -16,6 +16,8 @@ const createResistor = () => {
   const inputField = document.createElement("input");
   inputField.type = "number";
   inputField.required = true;
+  inputField.autocomplete = "off";
+  inputField.step = "any";
   inputField.placeholder = `R${count}`;
   inputField.dataset.name = `R${count++}`;
   return inputField;
@@ -32,7 +34,6 @@ const addResistor = () => {
       const newList = document.createElement("ul");
       head.appendChild(newList);
       moveHead(newList);
-      console.log(head);
     }
     component.dataset.type = type;
     component.appendChild(createResistor());
@@ -49,7 +50,6 @@ const addResistor = () => {
       wrapper.dataset.type = type;
       head.appendChild(wrapper);
       moveHead(wrapper);
-      console.log(head);
     } else {
       if (head.tagName !== "LI") {
         alert("Step Forward");
@@ -64,7 +64,6 @@ const addResistor = () => {
 const stepBack = () => {
   const headTag = head.parentElement.tagName;
   if (headTag !== "FORM" && headTag !== "DIV") moveHead(head.parentElement);
-  console.log("HEAD ", head);
 };
 
 const submit = (e) => {
@@ -72,7 +71,6 @@ const submit = (e) => {
   const children = [...outerList.children];
   project.voltage = children.shift().firstElementChild.value;
   project.components = encode(children);
-  console.log("Post Body: ", project);
   fetch("/data", {
     method: "POST",
     headers: {
@@ -93,7 +91,6 @@ const encode = (componentList) => {
     else throw new Error("Invalid Component Type");
     components.push(newData);
   }
-  console.log("Componenets:", components);
   return components;
 };
 
@@ -112,15 +109,10 @@ const addParallelData = (component) => {
   const branches = [...component.children];
   const branchList = [];
   for (const branch of branches) {
-    // Component List
     if (branch.tagName === "UL") {
-      aaa = encode([...branch.children]);
-      console.log("Branch Children: ", [...branch.children], aaa);
-      branchList.push(aaa);
+      branchList.push(encode([...branch.children]));
       continue;
     }
-    console.log(branches);
-    console.log(branch);
     inputField = branch;
     branchList.push({
       name: inputField.dataset.name,
